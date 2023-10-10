@@ -4,19 +4,21 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { HistoricalChartlineComponent } from './dashboards/historical-chartline/historical-chartline.component';
-import { OperationsChartcardComponent } from './dashboards/operations-chartcard/operations-chartcard.component';
+import { LineChartComponent } from './dashboards/line-chart/line-chart.component';
+import { BoxChartComponent } from './dashboards/box-chart/box-chart.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HistoricalChartlineComponent,
-    OperationsChartcardComponent
+    LineChartComponent,
+    BoxChartComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
