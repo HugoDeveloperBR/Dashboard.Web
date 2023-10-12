@@ -38,6 +38,8 @@ export class LineChartComponent implements OnInit {
               }))
     
               chart.updateSeries(result)
+
+              //atualizar o tooltip aqui com o updateOptions
             },
             error: err => console.error(err)
           })
@@ -59,14 +61,6 @@ export class LineChartComponent implements OnInit {
         defaultLocale: 'pt-br',
         zoom: {
           enabled: false
-        },
-        events: {
-          click: function (event, chartContext, config) {
-            console.log(chartContext);
-            console.log(config);
-
-            console.log(event);
-          }
         },
         locales: [
           {
@@ -160,6 +154,8 @@ export class LineChartComponent implements OnInit {
           var name = w.config.series[seriesIndex].name;
           var date = w.config.xaxis.categories[dataPointIndex];
 
+          //details: [1, 2, 4, 6,]
+
           return (
             '<div style="width: 400px;padding: 15px;border-radius: 5px;">' +
             '<label style="font-weight: bold; color: #a3a3a3;"> 10 de outubro </label>' +
@@ -178,6 +174,23 @@ export class LineChartComponent implements OnInit {
             '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">' +
             recordsCount +
             '</span></div>' +
+            '</div>' +
+            '<div class="row mt-2">' +
+            '<div class="col-2"></div>' +
+            '<div class="col-8">' +
+            '<label style="font-size: 16px;">Automatico</label>' +
+            '</div>' +
+            '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">3</span></div>' +
+            '</div>' +
+            '<div class="row mt-2">' +
+            '<div class="col-2"></div>' +
+            '<div class="col-8">' +
+            '<div class="load-wraper">' +
+            '<div class="activity"></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
             '</div>' +
             '</div>'
           );
