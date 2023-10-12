@@ -1,4 +1,7 @@
+import { RecordDetail } from "./record-detail.model";
+
 export interface Record {
     name: string;
-    values: number[]
+    values: number[];
+    details: RecordDetail[];
 }

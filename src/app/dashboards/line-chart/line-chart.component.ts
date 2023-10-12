@@ -27,29 +27,98 @@ export class LineChartComponent implements OnInit {
             categories: interval
           }
 
-          chart.updateOptions(options);
 
           this.lineChartService.getRecords(start, end)
-          .subscribe({
-            next: (records: Record[]) => {
-              const result = records.map(record => ({
-                name: record.name,
-                data: record.values
-              }))
-    
-              chart.updateSeries(result)
+            .subscribe({
+              next: (records: Record[]) => {
+                const result = records.map(record => ({
+                  name: record.name,
+                  data: record.values
+                }))
 
-              //atualizar o tooltip aqui com o updateOptions
-            },
-            error: err => console.error(err)
-          })
+                options.tooltip.custom = ({ series, seriesIndex, dataPointIndex, w }) => {
+
+                  var recordsCount = series[seriesIndex][dataPointIndex];
+                  var color = w.globals.colors[seriesIndex];
+                  var name = w.config.series[seriesIndex].name;
+
+                  //lista de detalhes: records[seriesIndex].details
+                  //valor: records[seriesIndex].details[0].values[dataPointIndex]
+
+                  console.log(dataPointIndex);
+                  console.log(records[seriesIndex].details);
+                  console.log(records[seriesIndex].details[0].values[dataPointIndex]);
+
+
+                  let htmlTooltipDetails = '';
+
+                  let details = records[seriesIndex].details;
+                  console.log(details.length > 0);
+
+                  if (details.length > 0) {
+
+                    for (let i = 0; i < details.length; i++) {
+                      let name = details[0].name;
+                      let count = records[seriesIndex].details[i].values[dataPointIndex];
+
+                      htmlTooltipDetails +=
+                        '<div class="row mt-2">' +
+                          '<div class="col-2"></div>' +
+                          '<div class="col-8">' +
+                            '<label style="font-size: 16px;">' +
+                              name +
+                            '</label>' +
+                          '</div>' +
+                          '<div class="col-2">' +
+                            '<span class="badge text-bg-secondary" style="font-size: 14px;">' +
+                              count +
+                            '</span>' +
+                          '</div>' +
+                        '</div>'
+                    }
+                  }
+
+                  let htmlTooltip = 
+                    '<div style="width: 400px;padding: 15px;border-radius: 5px;">' +
+                    '<label style="font-weight: bold; color: #a3a3a3;"> 10 de outubro </label>' +
+                    '<div class="mt-2 mx-2">' +
+                    '<div class="row">' +
+                    '<div class="col-2">' +
+                    '<div style="width: 36px; height: 16px; border-radius: 2px; background-color: ' +
+                    color +
+                    '; margin-top:5px;"></div>' +
+                    '</div>' +
+                    '<div class="col-8">' +
+                    '<label style="font-size: 16px;font-weight: bold;">' +
+                    name +
+                    '</label>' +
+                    '</div>' +
+                    '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">' +
+                    recordsCount +
+                    '</span></div>' +
+                    '</div>' +
+                    htmlTooltipDetails +            
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+
+                  return htmlTooltip;
+                }
+
+                chart.updateOptions(options);
+                chart.updateSeries(result)
+
+                //atualizar o tooltip aqui com o updateOptions
+              },
+              error: err => console.error(err)
+            })
 
 
         },
         error: err => console.error(err)
       });
 
-    
+
 
     var options = {
       series: [],
@@ -176,21 +245,8 @@ export class LineChartComponent implements OnInit {
             '</span></div>' +
             '</div>' +
             '<div class="row mt-2">' +
-            '<div class="col-2"></div>' +
-            '<div class="col-8">' +
-            '<label style="font-size: 16px;">Automatico</label>' +
-            '</div>' +
-            '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">3</span></div>' +
-            '</div>' +
-            '<div class="row mt-2">' +
-            '<div class="col-2"></div>' +
-            '<div class="col-8">' +
-            '<div class="load-wraper">' +
-            '<div class="activity"></div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
+            '<div class="col-2"></div>' +     
+            '</div>' +        
             '</div>' +
             '</div>'
           );
