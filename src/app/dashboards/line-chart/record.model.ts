@@ -1,4 +1,4 @@
 export interface Record {
-    nome: string;
-    valores: number[]
+    name: string;
+    values: number[]
 }

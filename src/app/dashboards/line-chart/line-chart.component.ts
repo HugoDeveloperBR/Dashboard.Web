@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as ApexCharts from 'apexcharts';
 import { LineChartService } from './line-chart.service';
-import { ApexAxisChartSeries } from 'ng-apexcharts';
 import { Record } from './record.model';
-import { RecordDetail } from './record-detail.model';
 
 @Component({
   selector: 'app-line-chart',
@@ -18,8 +16,8 @@ export class LineChartComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let start = '2023-10-04';
-    let end = '2023-10-11'
+    let start = '2023-10-01';
+    let end = '2023-10-10'
 
     this.lineChartService.getInterval(start, end)
       .subscribe({
@@ -29,26 +27,27 @@ export class LineChartComponent implements OnInit {
             categories: interval
           }
 
-          //options.tooltip.custom () =>
-
-
           chart.updateOptions(options);
+
+          this.lineChartService.getRecords(start, end)
+          .subscribe({
+            next: (records: Record[]) => {
+              const result = records.map(record => ({
+                name: record.name,
+                data: record.values
+              }))
+    
+              chart.updateSeries(result)
+            },
+            error: err => console.error(err)
+          })
+
+
         },
         error: err => console.error(err)
       });
 
-    this.lineChartService.getRecords(start, end)
-      .subscribe({
-        next: (records: Record[]) => {
-          const result = records.map(record => ({
-            name: record.nome,
-            data: record.valores
-          }))
-
-          chart.updateSeries(result)
-        },
-        error: err => console.error(err)
-      })
+    
 
     var options = {
       series: [],
@@ -67,8 +66,6 @@ export class LineChartComponent implements OnInit {
             console.log(config);
 
             console.log(event);
-            //var name = chartContext.config.xaxis.categories[].name;
-            //var date = w.config.xaxis.categories[dataPointIndex];
           }
         },
         locales: [
@@ -163,12 +160,6 @@ export class LineChartComponent implements OnInit {
           var name = w.config.series[seriesIndex].name;
           var date = w.config.xaxis.categories[dataPointIndex];
 
-
-          //TODO:
-          // 1 - Fazer chamada para api passando os parametros chaves acima
-          // 2 - Colocar um gif de loading no campo de detalhe - https://loading.io/
-          // 3 - Colocar os respectivos valores nos campos
-
           return (
             '<div style="width: 400px;padding: 15px;border-radius: 5px;">' +
             '<label style="font-weight: bold; color: #a3a3a3;"> 10 de outubro </label>' +
@@ -187,26 +178,6 @@ export class LineChartComponent implements OnInit {
             '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">' +
             recordsCount +
             '</span></div>' +
-            '</div>' +
-            '<div class="row mt-2">' +
-            '<div class="col-2"></div>' +
-            '<div class="col-8">' +
-            '<label style="font-size: 16px;">Automatico</label>' +
-            '</div>' +
-            '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">3</span></div>' +
-            '</div>' +
-            '<div class="row mt-2">' +
-            '<div class="col-2"></div>' +
-            '<div class="col-8">' +
-            '<div class="load-wraper">' +
-            '<div class="activity"></div>' +
-            '</div>' +
-            '</div>' +
-            '<div class="col-2"><span class="badge text-bg-secondary" style="font-size: 14px;">' +
-            '<img src="assets/img/loading.gif" width="16px">' +
-            '</span></div>' +
-            '</div>' +
-            '</div>' +
             '</div>' +
             '</div>'
           );
