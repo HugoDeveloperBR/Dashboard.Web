@@ -10,7 +10,7 @@
             <div class="col-8">
                 <div class="ml-3">
                     <span class="font-weight-bold">Contratos registrados</span>
-                    <p class="display-4 text-bold">123</p>
+                    <p class="display-4 text-bold">{{ consolidated.succefullyRecordsCount }}</p>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="col-8">
                 <div class="ml-3">
                     <span class="font-weight-bold">Contratos com inconsistências</span>
-                    <p class="display-4 text-bold">33</p>
+                    <p class="display-4 text-bold">{{ consolidated.inconsistentRecordsCount }}</p>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="col-8">
                 <div class="ml-3">
                     <span class="font-weight-bold">Contratos sem imagem</span>
-                    <p class="display-4 text-bold">123</p>
+                    <p class="display-4 text-bold">{{ consolidated.pendentRecordsCount }}</p>
                 </div>
             </div>
         </div>

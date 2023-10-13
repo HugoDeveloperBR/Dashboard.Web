@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Record } from './record.model';
 import { RecordDetail } from './record-detail.model';
+import { Consolidated } from '../box-chart/consolidated.model';
 
 const PORT: number = 7175;
 const PROTOCOL: string = 'https';
@@ -40,6 +41,18 @@ export class LineChartService {
     return this.http.get<Record[]>(`${this.baseUrl}dashboards/records`, { params: params })
       .pipe(
         tap(data => console.log('Records: ', JSON.stringify(data)))
+      )
+  }
+
+  getConsolidated(start: string, end: string): Observable<Consolidated> {
+
+    let params = new HttpParams();
+    params = params.append('startDate', start);
+    params = params.append('endDate', end);
+
+    return this.http.get<Consolidated>(`${this.baseUrl}dashboards/consolidated`, { params: params })
+      .pipe(
+        tap(data => console.log('Consolidated: ', JSON.stringify(data)))
       )
   }
 }

@@ -1,2 +1,7 @@
 <p class="font-weight-bold">Resumo</p>
 <div id="chart"></div>
+<p class="text-end" *ngIf="timeElapsed">
+    <span class="badge text-bg-secondary">
+        <small class="font-monospace text-light">Time Elapsed: {{ timeElapsed }}</small>
+    </span>    
+</p>
